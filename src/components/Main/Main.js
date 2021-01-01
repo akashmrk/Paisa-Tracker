@@ -18,13 +18,13 @@ function Main() {
       <CardHeader title="Expense Tracker" subheader="Powered by Speechly" />
       <CardContent>
         <Typography align="center" variant="h5">
-          Total Balance $100
+          Total Balance ₹500
         </Typography>
         <Typography
           variant="subtitle1"
           style={{ lineHeight: "1.5em", marginTop: "20px" }}
         >
-          Try saying : Add income for 100$
+          Try saying : Add income for 10000₹
         </Typography>
         <Divider />
         <Form />
