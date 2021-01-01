@@ -14,7 +14,6 @@ import { v4 as uuidv4 } from "uuid";
 import useStyles from "./styles";
 import {
   incomeCategories,
-  exportCategories,
   expenseCategories,
 } from "../../../constants/categories";
 import formatDate from "../../../utils/formatDate";
