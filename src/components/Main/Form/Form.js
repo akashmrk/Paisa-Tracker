@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   TextField,
   Typography,
@@ -11,6 +11,8 @@ import {
 } from "@material-ui/core";
 import { ExpenseTrackerContext } from "../../../context/context";
 import { v4 as uuidv4 } from "uuid";
+import { useSpeechContext } from "@speechly/react-client";
+
 import useStyles from "./styles";
 import {
   incomeCategories,
@@ -29,6 +31,7 @@ function Form() {
   const classes = useStyles();
   const [formData, setFormData] = useState(initialState);
   const { addTransaction } = useContext(ExpenseTrackerContext);
+  const { segment } = useSpeechContext();
 
   const createTransaction = () => {
     const transaction = {
@@ -40,6 +43,15 @@ function Form() {
     setFormData(initialState);
   };
 
+  /// NEEED SPEECHLY API CONFIG TO BE COMPLETED //////
+  useEffect(() => {
+    if (segment) {
+      if (segment.intent.intent === "add_expense") {
+        setFormData({ ...formData, type: "Expense" });
+      }
+    }
+  }, [segment]); // will run everytime formData changes .. Incomplete....
+
   const selectedCategories =
     formData.type === "Income" ? incomeCategories : expenseCategories;
 
@@ -47,7 +59,7 @@ function Form() {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography align="center" variant="subtitle2" gutterBottom>
-          ...
+          {segment ? <>{segment.words.map((w) => w.value).join(" ")}</> : null}
         </Typography>
       </Grid>
       <Grid item xs={6}>
