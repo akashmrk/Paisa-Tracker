@@ -62,41 +62,39 @@ function Form() {
       } else if (
         segment.isFinal &&
         segment.intent.intent === "cancel_transaction"
-      ) {
+      )
         return setFormData(initialState);
-      }
-
-      segment.entities.forEach((s) => {
-        const category = `${s.value.charAt(0)}${s.value
+      segment.entities.forEach((e) => {
+        const category = `${e.value.charAt(0)}${e.value
           .slice(1)
-          .toLowerCase()}`;
-
-        switch (s.type) {
+          .toLocaleLowerCase()}`;
+        switch (e.type) {
           case "amount":
-            setFormData({ ...formData, amount: s.value });
+            setFormData({ ...formData, amount: e.value });
             break;
           case "category":
             if (incomeCategories.map((iC) => iC.type).includes(category)) {
               setFormData({ ...formData, type: "Income", category });
-            } else if (
+            } //To avoid unmatched category throwing error
+            else if (
               expenseCategories.map((iC) => iC.type).includes(category)
             ) {
               setFormData({ ...formData, type: "Expense", category });
-            }
+            } //To avoid unmatched category throwing error
+            setFormData({ ...formData, category });
             break;
           case "date":
-            setFormData({ ...formData, date: s.value });
+            setFormData({ ...formData, date: e.value });
             break;
           default:
             break;
         }
       });
-
       if (
         segment.isFinal &&
         formData.amount &&
-        formData.category &&
         formData.type &&
+        formData.category &&
         formData.date
       ) {
         createTransaction();
